@@ -11,7 +11,8 @@ app.use(express.json());
 app.use(fileUpload());
 
 // Mongodb
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion,ObjectId } = require('mongodb');
+const { request } = require("express");
 const uri = `mongodb+srv://db_user1:${process.env.DB_PASS}@cluster0.k5a62mv.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 console.log(uri);
@@ -119,6 +120,7 @@ async function run() {
     app.put("/updateOrderStatus/:id",async (req, res) => {
       const id = req.params.id;
       const { status } = req.body;
+      console.log(id,req.body)
       const filter = { _id: ObjectId(id) }
       console.log(status);
       const doc = {
