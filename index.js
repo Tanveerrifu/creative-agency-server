@@ -116,19 +116,19 @@ async function run() {
 
     // api to update order
 
-    app.patch("/updateOrderStatus", (req, res) => {
-      const orderId = req.body.id;
-      const status = req.body.status;
-      const result = orderCollection.updateOne(
-        { _id: ObjectId(orderId) },
-        { $set: { status: status } }
-      );
-      if (result.modifiedCount) {
-        res.status(200).send(result.modifiedCount > 0);
-      } else {
-        res.sendStatus(400);
+    app.put("/updateOrderStatus/:id",async (req, res) => {
+      const id = req.params.id;
+      const { status } = req.body;
+      const filter = { _id: ObjectId(id) }
+      console.log(status);
+      const doc = {
+        $set: { status: status }
       }
+      const result = await orderCollection.updateOne(filter,doc
+      );
+      res.send(result)
     });
+
 
     // api to delete order
 
