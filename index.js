@@ -37,6 +37,9 @@ async function run() {
     app.post("/addService", (req, res) => {
       const data = req.body;
       const file = req.files.file;
+      console.log(req.body)
+      console.log(req.files)
+
       const newImg = file.data;
       const encImg = newImg.toString("base64");
 
@@ -47,10 +50,11 @@ async function run() {
       };
       const service = { ...data, image };
       serviceCollection.insertOne(service).then((result) => {
-        if (result.insertedCount > 0) {
-          res.status(200).send(result.insertedCount > 0);
+        console.log(result)
+        if (result.acknowledged) {
+          res.status(200).send(result);
         } else {
-          res.statusCode(400);
+          res.status(400);
         }
       });
     });
